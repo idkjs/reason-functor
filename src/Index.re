@@ -45,7 +45,8 @@ ReactDOMRe.render(
 // // };
 
 // ReactDOMRe.render(Demo.make, makeContainer(" Preview"));
-// ReactDOMRe.render(Counter.make, makeContainer("Counter"),);
+ReactDOMRe.render(<Counter />, makeContainer("Counter"),);
+ReactDOMRe.render(<Counter2 />, makeContainer("Counter2"),);
 // ReactDOMRe.render(<Demo />, makeContainer(" Preview"));
 // ReactDOMRe.renderToElementWithId(
 //   <ReactFunctorDemo.IntValue value=2 />,

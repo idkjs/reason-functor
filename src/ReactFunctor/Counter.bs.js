@@ -2,43 +2,70 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var ReasonReact = require("reason-react/src/legacy/ReasonReact.bs.js");
 
-var component = ReasonReact.reducerComponent("Counter");
-
-function make(_children) {
+function Make(Param) {
+  var useState = function (initial) {
+    return React.useReducer((function (param, a) {
+                  return a;
+                }), initial);
+  };
+  var Counter$Make = function (Props) {
+    var value = Props.value;
+    var match = React.useReducer((function (param, a) {
+            return a;
+          }), {
+          value: value
+        });
+    var state = match[0];
+    var countMsg = "Count: " + state.value;
+    return React.createElement("div", {
+                style: {
+                  fontSize: "32px"
+                }
+              }, React.createElement("p", undefined, Param.name), React.createElement("p", undefined, countMsg), Curry._1(Param.toString, state.value));
+  };
   return {
-          debugName: component.debugName,
-          reactClassInternal: component.reactClassInternal,
-          handedOffState: component.handedOffState,
-          willReceiveProps: component.willReceiveProps,
-          didMount: component.didMount,
-          didUpdate: component.didUpdate,
-          willUnmount: component.willUnmount,
-          willUpdate: component.willUpdate,
-          shouldUpdate: component.shouldUpdate,
-          render: (function (self) {
-              var countMsg = "Count: " + String(self.state);
-              return React.createElement("div", undefined, React.createElement("p", undefined, countMsg), React.createElement("button", {
-                              onClick: (function (_event) {
-                                  return Curry._1(self.send, /* Add */0);
-                                })
-                            }, "Add"));
-            }),
-          initialState: (function (param) {
-              return 0;
-            }),
-          retainedProps: component.retainedProps,
-          reducer: (function (action, state) {
-              return {
-                      TAG: /* Update */0,
-                      _0: state + 1 | 0
-                    };
-            }),
-          jsElementWrapped: component.jsElementWrapped
+          useState: useState,
+          make: Counter$Make
         };
 }
 
-exports.component = component;
+function useState(initial) {
+  return React.useReducer((function (param, a) {
+                return a;
+              }), initial);
+}
+
+function Counter$Make(Props) {
+  var value = Props.value;
+  var match = React.useReducer((function (param, a) {
+          return a;
+        }), {
+        value: value
+      });
+  var state = match[0];
+  var countMsg = "Count: " + state.value;
+  return React.createElement("div", {
+              style: {
+                fontSize: "32px"
+              }
+            }, React.createElement("p", undefined, "Int"), React.createElement("p", undefined, countMsg), String(state.value));
+}
+
+var IntValue = {
+  useState: useState,
+  make: Counter$Make
+};
+
+function Counter(Props) {
+  return React.createElement(Counter$Make, {
+              value: 2
+            });
+}
+
+var make = Counter;
+
+exports.Make = Make;
+exports.IntValue = IntValue;
 exports.make = make;
-/* component Not a pure module */
+/* react Not a pure module */

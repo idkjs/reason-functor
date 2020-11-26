@@ -2,6 +2,8 @@
 
 var React = require("react");
 var ReactDom = require("react-dom");
+var Counter$ReactFunctor = require("./ReactFunctor/Counter.bs.js");
+var Counter2$ReactFunctor = require("./ReactFunctor/Counter2.bs.js");
 var DummyModule$ReactFunctor = require("./PromiseHook/DummyModule.bs.js");
 var ExampleStyles$ReactFunctor = require("./ExampleStyles.bs.js");
 var BlinkingGreeting$ReactFunctor = require("./BlinkingGreeting/BlinkingGreeting.bs.js");
@@ -32,6 +34,10 @@ function makeContainer(text) {
 ReactDom.render(React.createElement(BlinkingGreeting$ReactFunctor.make, {
           children: "Hello!"
         }), makeContainer("Blinking Greeting"));
+
+ReactDom.render(React.createElement(Counter$ReactFunctor.make, {}), makeContainer("Counter"));
+
+ReactDom.render(React.createElement(Counter2$ReactFunctor.make, {}), makeContainer("Counter2"));
 
 DummyModule$ReactFunctor.make(undefined);
 
