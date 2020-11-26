@@ -3,6 +3,22 @@
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 
+var leftButtonStyle = {
+  width: "48px",
+  borderRadius: "4px 0px 0px 4px"
+};
+
+var rightButtonStyle = {
+  width: "48px",
+  borderRadius: "0px 4px 4px 0px"
+};
+
+var containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between"
+};
+
 function Make(Param) {
   var useState = function (initial) {
     return React.useReducer((function (param, a) {
@@ -17,12 +33,12 @@ function Make(Param) {
           value: value
         });
     var state = match[0];
-    var countMsg = "Count: " + state.value;
+    var countMsg = "Count: " + Curry._1(Param.toString, state.value);
     return React.createElement("div", {
                 style: {
                   fontSize: "32px"
                 }
-              }, React.createElement("p", undefined, Param.name), React.createElement("p", undefined, countMsg), Curry._1(Param.toString, state.value));
+              }, React.createElement("p", undefined, Param.name), React.createElement("p", undefined, countMsg), Curry._1(Param.render, state.value));
   };
   return {
           useState: useState,
@@ -44,7 +60,7 @@ function Counter$Make(Props) {
         value: value
       });
   var state = match[0];
-  var countMsg = "Count: " + state.value;
+  var countMsg = "Count: " + String(state.value);
   return React.createElement("div", {
               style: {
                 fontSize: "32px"
@@ -65,6 +81,9 @@ function Counter(Props) {
 
 var make = Counter;
 
+exports.leftButtonStyle = leftButtonStyle;
+exports.rightButtonStyle = rightButtonStyle;
+exports.containerStyle = containerStyle;
 exports.Make = Make;
 exports.IntValue = IntValue;
 exports.make = make;

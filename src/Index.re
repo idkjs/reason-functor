@@ -26,48 +26,62 @@ let makeContainer = text => {
 
   content;
 };
+let blogPost = "https://github.com/bloodyowl/website/blob/main/contents/blog/2019-01-23-generating-reason-react-components-with-functors.md";
 
+let stackOverflow = "https://stackoverflow.com/questions/57641241/how-to-bind-to-and-use-a-higher-order-component-in-reasonreact";
+
+let containerStyle =
+  ReactDOMRe.Style.make(
+    ~display="flex",
+    ~alignItems="center",
+    ~justifyContent="space-between",
+    (),
+  );
 // All 4 examples.
 ReactDOMRe.render(
-  <BlinkingGreeting>
-    {React.string("Hello!")}
-  </BlinkingGreeting>,
-  makeContainer("Blinking Greeting"),
+  // <BlinkingGreeting>
+  <div style=containerStyle>
+    <div className="containerContent">
+      <h2>
+        "BloodyOwl Blog Post"->React.string
+        <a href=blogPost target="_blank" />
+      </h2>
+      <a href=blogPost target="_blank"> blogPost->React.string </a>
+      <h2>
+        "Higher Order Component Bindind"->React.string
+        <a href=stackOverflow target="_blank" />
+      </h2>
+      <a href=stackOverflow target="_blank"> stackOverflow->React.string </a>
+    </div>
+  </div>,
+  // </BlinkingGreeting>
+  makeContainer("Sources"),
 );
-// open ReactFunctor;
-// module Demo ={
-//   [@react.component]
- 
-//  let make =React.component(()=>IntValue.make(~value=2));
-// };
-// // module Demo2 ={
-// // let _=React.component(()=>IntValue.make(~value=2));
-// // };
+ReactDOMRe.render(
+  <BlinkingGreeting> <CounterFunctor3 /> </BlinkingGreeting>,
+  makeContainer("Blinking Greeting Rendering Counter"),
+);
 
-// ReactDOMRe.render(Demo.make, makeContainer(" Preview"));
-ReactDOMRe.render(<Counter />, makeContainer("Counter"),);
-ReactDOMRe.render(<Counter2 />, makeContainer("Counter2"),);
-// ReactDOMRe.render(<Demo />, makeContainer(" Preview"));
-// ReactDOMRe.renderToElementWithId(
-//   <ReactFunctorDemo.IntValue value=2 />,
-//   makeContainer("Blinking Greeting"),
-// );
+ReactDOMRe.render(<CounterFunctor2 />, makeContainer("Counter Functor V2"));
+ReactDOMRe.render(<CounterFunctor3 />, makeContainer("Counter Functor V3"));
+
 DummyModule.make();
+
 ReactDOMRe.render(
-  <ReducerFromReactJSDocs />,
-  makeContainer("Reducer From ReactJS Docs"),
+  <Counter />,
+  makeContainer("Counter Render String Functor"),
 );
 ReactDOMRe.render(
   <ReducerFromReactJSDocs />,
   makeContainer("Reducer From ReactJS Docs"),
 );
 
-ReactDOMRe.render(
-  <FetchedDogPictures />,
-  makeContainer("Fetched Dog Pictures"),
-);
+// ReactDOMRe.render(
+//   <FetchedDogPictures.WrappedComponent />,
+//   makeContainer("Fetched Dog Pictures"),
+// );
 
 ReactDOMRe.render(
-  <ReasonUsingJSUsingReason />,
-  makeContainer("Reason Using JS Using Reason"),
+  <BlinkingGreeting> <HOCBinding /> </BlinkingGreeting>,
+  makeContainer("Source: https://stackoverflow.com/questions/57641241/how-to-bind-to-and-use-a-higher-order-component-in-reasonreact"),
 );

@@ -3,29 +3,28 @@
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
+var Caml_option = require("bs-platform/lib/js/caml_option.js");
+var Hooks$ReactFunctor = require("../PromiseHook/Hooks.bs.js");
 
-function FetchedDogPictures(Props) {
-  var match = React.useState(function () {
-        return /* LoadingDogs */0;
-      });
+function make(param) {
+  var match = Hooks$ReactFunctor.useState(/* LoadingDogs */0);
   var setState = match[1];
   var state = match[0];
+  var fetchDogs = function (param) {
+    return fetch("https://dog.ceo/api/breeds/image/random/3");
+  };
   React.useEffect((function () {
-          fetch("https://dog.ceo/api/breeds/image/random/3").then(function (response) {
-                    return response.json();
-                  }).then(function (jsonResponse) {
-                  Curry._1(setState, (function (_previousState) {
-                          return /* LoadedDogs */{
-                                  _0: jsonResponse.message
-                                };
-                        }));
-                  return Promise.resolve(undefined);
-                }).catch(function (_err) {
-                Curry._1(setState, (function (_previousState) {
-                        return /* ErrorFetchingDogs */1;
-                      }));
-                return Promise.resolve(undefined);
-              });
+          var dogs = Hooks$ReactFunctor.usePromise(fetchDogs);
+          if (dogs !== undefined) {
+            var response = Caml_option.valFromOption(dogs);
+            var jsonResponse = Curry._1(response, response).json();
+            console.log(jsonResponse);
+            Curry._1(setState, /* LoadedDogs */{
+                  _0: jsonResponse.message
+                });
+          } else {
+            Curry._1(setState, /* LoadingDogs */0);
+          }
           
         }), []);
   var tmp;
@@ -60,7 +59,14 @@ function FetchedDogPictures(Props) {
             }, tmp);
 }
 
-var make = FetchedDogPictures;
+var Dogs = {
+  make: make
+};
 
-exports.make = make;
+var WrappedComponent = {
+  make: make
+};
+
+exports.Dogs = Dogs;
+exports.WrappedComponent = WrappedComponent;
 /* react Not a pure module */

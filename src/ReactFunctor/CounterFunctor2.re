@@ -5,7 +5,17 @@ module type ParamType = {
   let dec: (t, int) => t;
   let toString: t => React.element;
 };
-
+let leftButtonStyle =
+  ReactDOMRe.Style.make(~borderRadius="4px 0px 0px 4px", ~width="48px", ());
+let rightButtonStyle =
+  ReactDOMRe.Style.make(~borderRadius="0px 4px 4px 0px", ~width="48px", ());
+let containerStyle =
+  ReactDOMRe.Style.make(
+    ~display="flex",
+    ~alignItems="center",
+    ~justifyContent="space-between",
+    (),
+  );
 module Make = (Param: ParamType) => {
   type state = {count: Param.t};
 
@@ -23,15 +33,19 @@ module Make = (Param: ParamType) => {
   let make = (~value: Param.t) => {
     let (state, dispatch) = React.useReducer(reducer, {count: value});
 
-    <main>
-      {React.string("Simple counter with reducer")}
+    <main style=containerStyle>
       <div>
-        <button onClick={_ => dispatch(Decrement)}>
-          {React.string("Decrement")}
+        <BlinkingGreeting>
+          {React.string("Count: ")}
+          {Param.toString(state.count)}
+        </BlinkingGreeting>
+      </div>
+      <div>
+        <button style=rightButtonStyle onClick={_ => dispatch(Decrement)}>
+          {React.string("-")}
         </button>
-        <span className="counter"> {Param.toString(state.count)} </span>
-        <button onClick={_ => dispatch(Increment)}>
-          {React.string("Increment")}
+        <button style=leftButtonStyle onClick={_ => dispatch(Increment)}>
+          {React.string("+")}
         </button>
       </div>
     </main>;
@@ -44,11 +58,10 @@ module IntValue =
     let name = "Int";
     let inc = (t, int) => t + int;
     let dec = (t, int) => t - int;
-    // let toInt = s => s->int_of_string;
     let toString = x => x->string_of_int->React.string;
   });
 
 [@react.component]
 let make = () => {
-  <IntValue value=2 />;
+  <IntValue value=23 />;
 };
